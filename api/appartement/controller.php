@@ -24,6 +24,10 @@ class AppartementController {
                 $res->content = $this->update_appartement($req, $res); 
             break;
             
+            case "PUT":
+                 $res->content = $this->update_appartement($req, $res);
+            break;
+
             case "DELETE":
                 $this->delete_appartement($req, $res);
             break;
@@ -51,7 +55,7 @@ class AppartementController {
         
         $res->content = $appartement;
     }
-
+//pluriel!!!
     function get_appartements($req, $res) {
         $appartements = $this->service->get_appartements();
 
@@ -70,7 +74,7 @@ class AppartementController {
     function update_appartement($req, $res) {
         if (!isset($req->uri[3])) {
             $res->status = 400;
-            $res->content = '{"message":"Cannot delete without ID"}';
+            $res->content = '{"message":"Cannot update without ID"}';
         }
 
         $appartement = new Appartement($req->body->description, $req->body->date, $req->body->done);
