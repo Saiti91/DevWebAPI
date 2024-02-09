@@ -23,7 +23,7 @@ class AppartementController {
             case "PATCH":
                 $res->content = $this->update_appartement($req, $res); 
             break;
-            
+
             case "PUT":
                  $res->content = $this->update_appartement($req, $res);
             break;

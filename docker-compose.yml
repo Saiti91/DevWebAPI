@@ -23,8 +23,8 @@ services:
       - 5432:5432
     environment:
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=todo_db
-      - POSTGRES_USER=todo
+      - POSTGRES_DB=appartement_db
+      - POSTGRES_USER=appartement
 
 volumes:
   pgadmin-data:
