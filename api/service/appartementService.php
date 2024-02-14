@@ -1,5 +1,5 @@
 <?php 
-include_once "./api/repository/appartementRepository.php";
+include_once "./repository/appartementRepository.php";
 
 class AppartementService {
 

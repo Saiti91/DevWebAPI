@@ -4,7 +4,7 @@ namespace Sevices;
 
 use UserRepository;
 
-include_once "./api/userRepository.php";
+include_once "./repository/userRepository.php";
 
 class UserService
 {

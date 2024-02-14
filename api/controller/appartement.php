@@ -44,7 +44,15 @@ class AppartementController {
     }
 
     function create_appartement($req, $res) {
-        $appartement_object = new Appartement();
+        $appartement_object = new Appartement(
+            $req->body->superficie,
+            $req->body->nb_personne,
+            $req->body->numero_rue,
+            $req->body->rue,
+            $req->body->ville,
+            $req->body->cp,
+            $req->body->prix,
+            $req->body->proprietaire);
 
         $new_appartement = $this->service->create_appartement($appartement_object);
     }
@@ -79,7 +87,7 @@ class AppartementController {
             $res->content = '{"message":"Cannot update without ID"}';
         }
 
-        $appartement = new Appartement($req->body->description, $req->body->date, $req->body->done);
+        $appartement = new Appartement($req->body->superficie, $req->body->nb_personne, $req->body->numero_rue, $req->body->rue, $req->body->ville, $req->body->cp, $req->body->prix, $req->body->proprietaire);
 
         $this->service->delete_appartement($req->uri[3], $appartement);
     }

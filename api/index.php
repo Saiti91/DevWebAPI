@@ -22,11 +22,6 @@ $request->body = json_decode($body);
 
 function router($req, $res) {
 
-
-    if (!isset($req->uri[2])) { 
-        resolve_with_message(200, "Welcome to Appart Api");
-    }
-
     switch ($req->uri[2]) {
         case "appartement":
             $controller = new AppartementController(); 

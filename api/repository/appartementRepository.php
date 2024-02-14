@@ -7,7 +7,7 @@ class AppartementRepository {
 
     public function __construct() {
         try {
-            $this->connection = pg_connect("host=database port=5432 dbname=appartement_db user=appartement password=password");
+            $this->connection = pg_connect("host=database port=5432 dbname=todo_db user=todo password=password");
             if (  $this->connection == null ) {
                 throw new Exception("Could not connect to database.");
             }
@@ -54,7 +54,18 @@ class AppartementRepository {
     }
 
     public function create_appartement($appartement_object): void {
-        $result = pg_query($this->connection, "INSERT INTO appartements (superficie,nb_personne,numero_rue,rue,ville,cp,prix,proprietaire) VALUES (!!!!!!!!)");
+        $result = pg_query($this->connection, "INSERT INTO appartements (superficie,nb_personne,numero_rue,rue,ville,cp,prix,proprietaire) 
+        VALUES (
+                $appartement_object->superficie,
+                $appartement_object->nb_personne,
+                $appartement_object->numero_rue,
+                $appartement_object->rue,
+                $appartement_object->ville,
+                $appartement_object->cp,
+                $appartement_object->prix,
+                $appartement_object->proprietaire
+        )");
+
 
         if (!$result) {
             throw new Exception(pg_last_error());
