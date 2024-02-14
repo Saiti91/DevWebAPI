@@ -1,7 +1,9 @@
 <?php
 include_once "./common/request.php";
 include_once "./common/response.php";
-include_once "./appartement/controller.php";
+include_once "./controller/appartement.php";
+include_once "./controller/reservation.php";
+include_once "./controller/user.php";
 
 header("Content-Type: application/json; charset=utf8");
 header("Access-Control-Allow-Origin: *");
@@ -31,6 +33,16 @@ function router($req, $res) {
             $controller->dispatch($req, $res);
             break;
 
+            case "reservation":
+                $controller = new ReservationController(); 
+                $controller->dispatch($req, $res);
+                break;
+    
+            case "user":
+                    $controller = new UserController(); 
+                    $controller->dispatch($req, $res);
+                    break;
+    
         default:
             $res->status = 404;
             $res->content = '{"message": "Url not found"}';
