@@ -13,13 +13,21 @@ class UserService
 
     function __construct()
     {
-        $this->repository = new AppartementRepository();
+        $this->repository = new UserRepository();
     }
-
     function create_user($user_object)
     {
         return $this->repository->create_user($user_object);
     }
+    function get_user($id)
+    {
+        return $this->repository->get_user($id);
+    }
+    function get_users()
+    {
+        return $this->repository->get_users();
+    }
+
 
 
 //    function get_appartement($id)

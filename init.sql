@@ -1,5 +1,5 @@
 CREATE TABLE appartements (
-    id serial PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     superficie int,
     nb_occupant int,
     rue varchar(255),
@@ -11,8 +11,7 @@ CREATE TABLE appartements (
 CREATE TABLE users (
     id serial PRIMARY KEY,
     Nom varchar(255),
-    Prenom varchar(255),
-    role int
+    Prenom varchar(255)
 );
 CREATE TABLE reservation (
     id INT AUTO_INCREMENT PRIMARY KEY,

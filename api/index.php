@@ -24,7 +24,7 @@ function router($req, $res) {
 
     switch ($req->uri[2]) {
         case "appartement":
-            $controller = new AppartementController(); 
+            $controller = new AppartementController();
             $controller->dispatch($req, $res);
             break;
 

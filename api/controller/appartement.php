@@ -44,18 +44,37 @@ class AppartementController {
     }
 
     function create_appartement($req, $res) {
-        $appartement_object = new Appartement(
-            $req->body->superficie,
-            $req->body->nb_personne,
-            $req->body->numero_rue,
-            $req->body->rue,
-            $req->body->ville,
-            $req->body->cp,
-            $req->body->prix,
-            $req->body->proprietaire);
+        // Récupérer le contenu JSON de la requête
+        $json = file_get_contents('php://input');
 
+        // Décoder le JSON en un tableau associatif
+        $data = json_decode($json, true);
+
+        // Vérifier si les données JSON sont valides
+        if (!$data) {
+            // Gérer l'erreur de données JSON malformées
+            // Par exemple, renvoyer une réponse d'erreur JSON au client
+            $res->content = json_encode(array('error' => 'Invalid JSON data'));
+            return;
+        }
+
+        // Créer un nouvel objet Appartement en utilisant les données JSON
+        $appartement_object = new Appartement();
+        $appartement_object->superficie = $data['superficie'];
+        $appartement_object->nb_occupant = $data['nb_occupant'];
+        $appartement_object->rue = $data['rue'];
+        $appartement_object->ville = $data['ville'];
+        $appartement_object->cp = $data['cp'];
+        $appartement_object->prix = $data['prix'];
+        $appartement_object->proprietaire = $data['proprietaire'];
+
+        // Appeler la méthode create_appartement du service
         $new_appartement = $this->service->create_appartement($appartement_object);
+
+        // Envoyer une réponse au client
+        $res->content = json_encode($new_appartement);
     }
+
 
 
     // un appartement spécifique
@@ -87,10 +106,32 @@ class AppartementController {
             $res->content = '{"message":"Cannot update without ID"}';
         }
 
-        $appartement = new Appartement($req->body->superficie, $req->body->nb_personne, $req->body->numero_rue, $req->body->rue, $req->body->ville, $req->body->cp, $req->body->prix, $req->body->proprietaire);
+        $json = file_get_contents('php://input');
 
-        $this->service->delete_appartement($req->uri[3], $appartement);
+        // Décoder le JSON en un tableau associatif
+        $data = json_decode($json, true);
+
+        // Vérifier si les données JSON sont valides
+        if (!$data) {
+            // Gérer l'erreur de données JSON malformées
+            // Par exemple, renvoyer une réponse d'erreur JSON au client
+            $res->content = json_encode(array('error' => 'Invalid JSON data'));
+            return;
+        }
+
+        // Créer un nouvel objet Appartement en utilisant les données JSON
+        $appartement_object = new Appartement();
+        $appartement_object->superficie = $data['superficie'];
+        $appartement_object->nb_occupant = $data['nb_occupant'];
+        $appartement_object->rue = $data['rue'];
+        $appartement_object->ville = $data['ville'];
+        $appartement_object->cp = $data['cp'];
+        $appartement_object->prix = $data['prix'];
+        $appartement_object->proprietaire = $data['proprietaire'];
+
+        $new_appartement = $this->service->update_appartement($req->uri[3], $appartement_object);
     }
+
 
 }
 

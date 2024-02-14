@@ -7,7 +7,7 @@ class AppartementRepository {
 
     public function __construct() {
         try {
-            $this->connection = pg_connect("host=database port=5432 dbname=todo_db user=todo password=password");
+            $this->connection = pg_connect("host=database port=5432 dbname=appartement_db user=appartement password=password");
             if (  $this->connection == null ) {
                 throw new Exception("Could not connect to database.");
             }
@@ -54,17 +54,15 @@ class AppartementRepository {
     }
 
     public function create_appartement($appartement_object): void {
-        $result = pg_query($this->connection, "INSERT INTO appartements (superficie,nb_personne,numero_rue,rue,ville,cp,prix,proprietaire) 
-        VALUES (
-                $appartement_object->superficie,
-                $appartement_object->nb_personne,
-                $appartement_object->numero_rue,
-                $appartement_object->rue,
-                $appartement_object->ville,
+
+        $result = pg_query($this->connection, "INSERT INTO appartements (superficie,nb_occupant,rue,ville,cp,prix,proprietaire) 
+        VALUES ($appartement_object->superficie,
+                $appartement_object->nb_occupant,
+                '$appartement_object->rue',
+                '$appartement_object->ville',
                 $appartement_object->cp,
                 $appartement_object->prix,
-                $appartement_object->proprietaire
-        )");
+                '$appartement_object->proprietaire')");
 
 
         if (!$result) {
@@ -82,10 +80,7 @@ class AppartementRepository {
             $query .= " superficie = '".$appartement_object->superficie."' ";
         }
         if (isset($appartement_object->nb_personne)) {
-            $query .= " nb_personne = '".$appartement_object->nb_personne."' ";
-        }
-        if (isset($appartement_object->numero_rue)) {
-            $query .= " numero_rue = '".$appartement_object->numero_rue."' ";
+            $query .= " nb_personne = '".$appartement_object->nb_occupant."' ";
         }
         if (isset($appartement_object->rue)) {
             $query .= " rue = '".$appartement_object->rue."' ";
@@ -110,5 +105,6 @@ class AppartementRepository {
            throw new Exception(pg_last_error());
         }
     }
+
 }
 ?>

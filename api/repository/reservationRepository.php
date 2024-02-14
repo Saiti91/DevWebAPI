@@ -16,14 +16,30 @@ class ReservationRepository {
         }
     }
 
-    public function create_resevation($resevation_object): void {
-        $result = pg_query($this->connection, "INSERT INTO resevation (client_id,appartement_id,prix,date_debut,date_fin) VALUES (!!!!!)");
+    public function create_reservation($resevation_object): void {
+        $result = pg_query($this->connection, "INSERT INTO resevation (client_id,appartement_id,prix,date_debut,date_fin) 
+VALUES ($resevation_object->client_id,
+        $resevation_object->appartement_id,
+        $resevation_object->prix,
+        $resevation_object->date_debut,
+        $resevation_object->date_fin)");
 
         if (!$result) {
             throw new Exception(pg_last_error());
         }
 
         return;
+    }
+    public function  get_price($id)
+    {
+        $result = pg_query($this->connection, "SELECT prix FROM appartements WHERE id = ($id)");
+
+        if (!$result) {
+            throw new Exception(pg_last_error());
+        }
+        $price = pg_fetch_assoc($result);
+
+        return $price["prix"];
     }
 }
 ?>
