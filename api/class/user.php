@@ -2,5 +2,6 @@
 class User {
     public $nom;
     public $prenom;
+    //public $id;
 }
 ?>

@@ -15,7 +15,6 @@ class AppartementRepository {
             throw new Exception("Database connection failed :".$e->getMessage());
         }
     }
-//add Reserve appartement
     public function get_appartements(): array {
             $result = pg_query($this->connection, "SELECT * FROM appartements");
             $appartements = [];
@@ -55,7 +54,7 @@ class AppartementRepository {
     }
 
     public function create_appartement($appartement_object): void {
-        $result = pg_query($this->connection, "INSERT INTO appartements (done, description, date_time) VALUES (!!!')");
+        $result = pg_query($this->connection, "INSERT INTO appartements (superficie,nb_personne,numero_rue,rue,ville,cp,prix,proprietaire) VALUES (!!!!!!!!)");
 
         if (!$result) {
             throw new Exception(pg_last_error());
@@ -67,20 +66,30 @@ class AppartementRepository {
     public function update_appartement($id , $appartement_object ): void {
         $query = "UPDATE appartements set ";
 
-        if (isset($appartement_object->done)) {
-            if ($appartement_object->done == "true") {
-                $query .= " done = TRUE ";
-            } else if ($appartement_object->done == "false") {
-                $query = " done = FALSE ";
-            }
-        }
 
-        if (isset($appartement_object->done) && isset($appartement_object->description)) {
-            $query .= " , ";
+        if (isset($appartement_object->superficie)) {
+            $query .= " superficie = '".$appartement_object->superficie."' ";
         }
-
-        if (isset($appartement_object->description)) {
-            $query .= " description = '".$appartement_object->description."' ";
+        if (isset($appartement_object->nb_personne)) {
+            $query .= " nb_personne = '".$appartement_object->nb_personne."' ";
+        }
+        if (isset($appartement_object->numero_rue)) {
+            $query .= " numero_rue = '".$appartement_object->numero_rue."' ";
+        }
+        if (isset($appartement_object->rue)) {
+            $query .= " rue = '".$appartement_object->rue."' ";
+        }
+        if (isset($appartement_object->ville)) {
+            $query .= " ville = '".$appartement_object->ville."' ";
+        }
+        if (isset($appartement_object->cp)) {
+            $query .= " cp = '".$appartement_object->cp."' ";
+        }
+        if (isset($appartement_object->prix)) {
+            $query .= " prix = '".$appartement_object->prix."' ";
+        }
+        if (isset($appartement_object->proprietaire)) {
+            $query .= " proprietaire = '".$appartement_object->proprietaire."' ";
         }
 
         $query .= " where id = $id; ";
@@ -91,3 +100,4 @@ class AppartementRepository {
         }
     }
 }
+?>
