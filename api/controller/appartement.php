@@ -1,5 +1,7 @@
 <?php 
-include_once "./appartement/service.php";
+include_once "./service/appartementService.php";
+include_once "./class/appartement.php";
+
 
 class AppartementController {
 
@@ -17,7 +19,7 @@ class AppartementController {
                     break;
                 }
                 $this->get_appartements($req, $res);
-                //add Reserve appartement
+                
             break;
 
             case "PATCH":
