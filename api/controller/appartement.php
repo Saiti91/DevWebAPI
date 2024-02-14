@@ -1,6 +1,6 @@
 <?php 
 include_once "./service/appartementService.php";
-include_once "./class/appartement.php";
+include_once "./class/appartementUser.php";
 
 
 class AppartementController {
