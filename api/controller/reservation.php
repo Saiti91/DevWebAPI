@@ -1,5 +1,7 @@
 <?php 
-include_once "./reservation/service.php";
+include_once "./service/reservationService.php";
+include_once "./class/reservation.php";
+
 
 class ReservationController {
 
@@ -14,13 +16,19 @@ class ReservationController {
             case "POST":
                 $this->reserve_appartement($req, $res);
             break;
-           
+
         }
 
     }
 
     function reserve_appartement($req, $res) {
-        $reservation_object = new Reservation();
+        $reservation_object = new Reservation(
+            $req->body->client_id,
+            $req->body->appartement_id,
+            $req->body->date_debut,
+            $req->body->date_fin
+        );
+
 
 
         $new_reservation = $this->service->reserve_appartement($reservation_object);
