@@ -4,8 +4,8 @@ namespace Sevices;
 
 use ReservationRepository;
 
-include_once "./api/repository/appartementRepository.php";
-include_once "./api/class/reservation.php";
+include_once "./repository/appartementRepository.php";
+include_once "./class/reservation.php";
 
 class reservationServices
 {
