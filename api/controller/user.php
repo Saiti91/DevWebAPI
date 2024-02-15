@@ -40,16 +40,28 @@ class UserController {
         }
 
         $user_object = new User();
+
+        $length = 16; // Longueur du token en bytes (un byte = 2 caractères hexadécimaux)
+        $token = bin2hex(random_bytes($length / 2)); // La longueur est divisée par 2 car chaque byte est représenté par 2 caractères hexadécimaux
+        $user_object->token =$token;
         $user_object->nom = $data['nom'];
         $user_object->prenom = $data['prenom'];
+        $user_object->droit = $data['droit'];
 
         $new_user = $this->service->create_user($user_object);
+        $res->content = $new_user;
     }
     function get_user($req, $res){
-        $this->service->get_user($req->uri[3]);
+        $user = $this->service->get_user($req->uri[3]);
+        $res->content = $user;
     }
     function get_users($req, $res){
-        $this->service->get_users();
+        $user=$this->service->get_users();
+        $res->content = $user;
+    }
+    function get_right($req, $res)
+    {
+        $this->service->get_right($req->body->token);
     }
 }
 

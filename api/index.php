@@ -21,7 +21,6 @@ $body = file_get_contents("php://input");
 $request->body = json_decode($body);
 
 function router($req, $res) {
-
     switch ($req->uri[2]) {
         case "appartement":
             $controller = new AppartementController();

@@ -28,6 +28,11 @@ class UserService
         return $this->repository->get_users();
     }
 
+    function get_right($token)
+    {
+        return $this->repository->get_right($token);
+    }
+
 
 
 //    function get_appartement($id)

@@ -1,25 +1,29 @@
 CREATE TABLE appartements (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    superficie int,
-    nb_occupant int,
-    rue varchar(255),
-    ville varchar(255),
-    cp int,
-    prix int,
-    proprietaire varchar(255)
+                              id SERIAL PRIMARY KEY,
+                              superficie INT,
+                              nb_occupant INT,
+                              rue VARCHAR(255),
+                              ville VARCHAR(255),
+                              cp INT,
+                              prix INT,
+                              proprietaire VARCHAR(255)
 );
+
 CREATE TABLE users (
-    id serial PRIMARY KEY,
-    Nom varchar(255),
-    Prenom varchar(255)
+                       id SERIAL PRIMARY KEY,
+                       Nom VARCHAR(255),
+                       Prenom VARCHAR(255),
+                       token VARCHAR(255),
+                       Droit INT
 );
+
 CREATE TABLE reservation (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    client_id INT,
-    appartement_id INT,
-    prix INT DEFAULT 0,
-    date_debut DATETIME,
-    date_fin DATETIME,
-    FOREIGN KEY (client_id) REFERENCES users(id),
-    FOREIGN KEY (appartement_id) REFERENCES appartement(id)
+                             id SERIAL PRIMARY KEY,
+                             client_id INT,
+                             appartement_id INT,
+                             prix INT DEFAULT 0,
+                             date_debut TIMESTAMP,
+                             date_fin TIMESTAMP,
+                             FOREIGN KEY (client_id) REFERENCES users(id),
+                             FOREIGN KEY (appartement_id) REFERENCES appartements(id)
 );

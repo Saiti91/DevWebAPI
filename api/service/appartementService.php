@@ -29,6 +29,10 @@ class AppartementService {
         return $this->repository->update_appartement($id, $appartement_object);
 
     }
+    function get_right($token)
+    {
+        return $this->repository->get_right($token);
+    }
 }
 
 

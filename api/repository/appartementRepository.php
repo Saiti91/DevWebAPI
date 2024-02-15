@@ -105,6 +105,21 @@ class AppartementRepository {
            throw new Exception(pg_last_error());
         }
     }
+    function get_right($token)
+    {
+        $result = pg_query($this->connection, "SELECT Droit FROM users where token = '$token'");
+
+        if (!$result) {
+            throw new Exception(pg_last_error());
+        }
+
+        $droit = pg_fetch_assoc($result);
+
+        if (!$droit) {
+            throw new BddNotFoundException("Requested to-do does not exist");
+        }
+        return $droit['droit'];
+    }
 
 }
 ?>

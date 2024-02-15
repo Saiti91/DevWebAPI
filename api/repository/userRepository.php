@@ -16,24 +16,23 @@ class UserRepository {
         }
     }
 
-    public function create_user($user_object): void {
-        var_dump($user_object);
+    public function create_user($user_object): mixed {
 
-        // Access object properties explicitly
         $nom = $user_object->nom;
         $prenom = $user_object->prenom;
-
-        // Using prepared statements to avoid SQL injection
-        $query = "INSERT INTO users (nom, prenom) VALUES ($1, $2)";
-        $result = pg_query_params($this->connection, $query, array($nom, $prenom));
+        $droit = $user_object->droit;
+        $token = $user_object->token;
+        $query = "INSERT INTO users (Nom, Prenom,token,Droit) VALUES ($1, $2, $3, $4)";
+        $result = pg_query_params($this->connection, $query, array($nom, $prenom,$token,$droit));
 
         if (!$result) {
             throw new Exception(pg_last_error());
         }
 
-        return;
+
+        return $token;
     }
-    public function get_users(): array {
+    public function get_users(): mixed {
         $result = pg_query($this->connection, "SELECT * FROM users");
         $users = [];
 
@@ -44,11 +43,10 @@ class UserRepository {
         while ($row = pg_fetch_assoc($result)) {
             $users[] = $row;
         }
-
         return $users;
     }
 
-    public function get_user($id): ?array {
+    public function get_user($id): mixed {
         $result = pg_query($this->connection, "SELECT * FROM users WHERE id = $id");
 
         if (!$result) {
@@ -58,6 +56,21 @@ class UserRepository {
         $user = pg_fetch_assoc($result);
 
         return $user ?: null;
+    }
+    function get_right($token)
+    {
+        $result = pg_query($this->connection, "SELECT Droit FROM users where token = '$token'");
+
+        if (!$result) {
+            throw new Exception(pg_last_error());
+        }
+
+        $droit = pg_fetch_assoc($result);
+
+        if (!$droit) {
+            throw new BddNotFoundException("Requested to-do does not exist");
+        }
+        return $droit['droit'];
     }
 }
 ?>
