@@ -1,3 +1,10 @@
+CREATE TABLE users (
+                       id SERIAL PRIMARY KEY,
+                       Nom VARCHAR(255) UNIQUE ,
+                       Prenom VARCHAR(255),
+                       token VARCHAR(255),
+                       Droit INT
+);
 CREATE TABLE appartements (
                               id SERIAL PRIMARY KEY,
                               superficie INT,
@@ -6,17 +13,9 @@ CREATE TABLE appartements (
                               ville VARCHAR(255),
                               cp INT,
                               prix INT,
-                              proprietaire VARCHAR(255)
+                              proprietaire VARCHAR(255),
+                              FOREIGN KEY (proprietaire) REFERENCES users(Nom)
 );
-
-CREATE TABLE users (
-                       id SERIAL PRIMARY KEY,
-                       Nom VARCHAR(255),
-                       Prenom VARCHAR(255),
-                       token VARCHAR(255),
-                       Droit INT
-);
-
 CREATE TABLE reservation (
                              id SERIAL PRIMARY KEY,
                              client_id INT,

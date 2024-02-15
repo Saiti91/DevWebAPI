@@ -20,13 +20,18 @@ class reservationServices
 
     function reserve_appartement($reservation_object)
     {
+        var_dump($reservation_object);
         $start_date = date_create_from_format('d/m/Y', $reservation_object->date_debut);
         $end_date = date_create_from_format('d/m/Y', $reservation_object->date_fin);
 
         $interval = $start_date->diff($end_date);
-        $num_days = $interval->days + 1; // Adding 1 to include the end date
-
-        $prixAppart = $this->repository->get_price($reservation_object->appartement_id);
+        $num_days = $interval->days + 1;
+        if(!$this->get_proprioName($reservation_object->token,$reservation_object->appartement_id)){
+            $prixAppart = $this->repository->get_price($reservation_object->appartement_id);
+        }
+        else{
+            $prixAppart = 0;
+        }
         $reservation_object->prix = $prixAppart * $num_days;
 
         return $this->repository->create_reservation($reservation_object);
@@ -35,27 +40,13 @@ class reservationServices
     {
         return $this->repository->get_right($token);
     }
-
-/*    function get_appartement($id)
-    {
-        return $this->repository->get_appartement($id);
+    function get_reservations() {
+        return $this->repository->get_reservations();
     }
-
-    function get_appartements()
+    function get_proprioName($token,$appart_id)
     {
-        return $this->repository->get_appartements();
+        return $this->repository->get_proprioName($token,$appart_id);
     }
-
-    function delete_appartement($id)
-    {
-        $this->repository->delete_appartement($id);
-    }
-
-    function update_appartement($id, $appartement_object)
-    {
-        return $this->repository->update_appartement($id, $appartement_object);
-
-    }*/
 }
 
 ?>

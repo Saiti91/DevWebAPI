@@ -41,8 +41,8 @@ class UserController {
 
         $user_object = new User();
 
-        $length = 16; // Longueur du token en bytes (un byte = 2 caractères hexadécimaux)
-        $token = bin2hex(random_bytes($length / 2)); // La longueur est divisée par 2 car chaque byte est représenté par 2 caractères hexadécimaux
+        $length = 16;
+        $token = bin2hex(random_bytes($length / 2));
         $user_object->token =$token;
         $user_object->nom = $data['nom'];
         $user_object->prenom = $data['prenom'];

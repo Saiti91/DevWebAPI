@@ -16,16 +16,50 @@ class ReservationRepository {
         }
     }
 
+    public function get_reservations(): array {
+        $result = pg_query($this->connection, "SELECT * FROM reservation");
+        $reservations = [];
+
+        if (!$result) {
+            throw new Exception(pg_last_error());
+        }
+
+        while ($row = pg_fetch_assoc($result)) {
+            $reservations[] = $row;
+        }
+
+        return $reservations;
+    }
     public function create_reservation($resevation_object): void {
-        var_dump($resevation_object);
+        $result = pg_query($this->connection, "SELECT * FROM reservation WHERE appartement_id = $resevation_object->appartement_id");
+        $reservations = [];
+        while ($row = pg_fetch_assoc($result)) {
+            $reservations[] = $row;
+        }
+
+        foreach($reservations as $key => $value){
+            if($value['date_debut'] <= $resevation_object->date_debut && $value['date_fin'] >= $resevation_object->date_fin){
+                return;
+            }
+            elseif($value['date_debut'] >= $resevation_object->date_debut && $value['date_fin'] <= $resevation_object->date_fin){
+                return;
+            }
+            elseif($value['date_debut'] <= $resevation_object->date_fin && $value['date_fin'] >= $resevation_object->date_fin){
+                return;
+            }
+            elseif($value['date_debut'] <= $resevation_object->date_debut && $value['date_fin'] >= $resevation_object->date_debut){
+                return;
+            }
+        }
+
         $result = pg_query($this->connection, "INSERT INTO reservation (client_id, appartement_id, prix, date_debut, date_fin) 
-    VALUES (
+        VALUES (
         $resevation_object->client_id,
         $resevation_object->appartement_id,
         $resevation_object->prix,
         to_timestamp('$resevation_object->date_debut', 'DD/MM/YYYY'),
         to_timestamp('$resevation_object->date_fin', 'DD/MM/YYYY')
-    )");
+        )");
 
         if (!$result) {
             throw new Exception(pg_last_error());
@@ -59,5 +93,22 @@ class ReservationRepository {
         }
         return $droit['droit'];
     }
+    function get_proprioName($token, $appart_id)
+    {
+        $result = pg_query($this->connection, "SELECT COUNT(*) AS count_match 
+                                           FROM appartements a
+                                           INNER JOIN users u ON a.proprietaire = u.Nom
+                                           WHERE u.token = '$token' 
+                                           AND a.id = $appart_id");
+
+        if (!$result) {
+            throw new Exception(pg_last_error());
+        }
+
+        $row = pg_fetch_assoc($result);
+        $count_match = (int)$row['count_match'];
+        return $count_match > 0;
+    }
+
 }
 ?>

@@ -17,13 +17,15 @@ class ReservationController {
             case "POST":
                 $this->reserve_appartement($req, $res);
             break;
+            case "GET":
+                $this->get_resservations($req, $res);
+            break;
 
         }
 
     }
 
     function reserve_appartement($req, $res) {
-        //ajouter la vérification propietaire ou deja reserver
         $json = file_get_contents('php://input');
         $data = json_decode($json, true);
         if (!$data) {
@@ -31,16 +33,22 @@ class ReservationController {
             return;
         }
         $reservation_object = new Reservation();
+        $reservation_object->token = $data['token'];
         $reservation_object->client_id = $data['client_id'];
         $reservation_object->appartement_id = $data['appartement_id'];
         $reservation_object->date_debut = $data['date_debut'];
         $reservation_object->date_fin = $data['date_fin'];
         $new_reseration = $this->service->reserve_appartement($reservation_object);
 
+        $res->status = 200;
+        $res->content = '{"message":"Reservation Created"}';
     }
-    function get_right($req, $res)
+
+    function get_resservations($req, $res)
     {
-        $this->service->get_right($req->body->token);
+        $reservation = $this->service->get_reservations();
+
+        $res->content = $reservation;
     }
 
 }

@@ -44,26 +44,16 @@ class AppartementController {
     }
 
     function create_appartement($req, $res) {
-
-
-
-        // Récupérer le contenu JSON de la requête
         $json = file_get_contents('php://input');
 
-        // Décoder le JSON en un tableau associatif
         $data = json_decode($json, true);
 
-        // Vérifier si les données JSON sont valides
         if (!$data) {
-            // Gérer l'erreur de données JSON malformées
-            // Par exemple, renvoyer une réponse d'erreur JSON au client
             $res->content = json_encode(array('error' => 'Invalid JSON data'));
             return;
         }
-            //var_dump($data['token']);
 
         if($this->get_right($data['token'])==1){
-        // Créer un nouvel objet Appartement en utilisant les données JSON
         $appartement_object = new Appartement();
         $appartement_object->superficie = $data['superficie'];
         $appartement_object->nb_occupant = $data['nb_occupant'];
@@ -73,7 +63,6 @@ class AppartementController {
         $appartement_object->prix = $data['prix'];
         $appartement_object->proprietaire = $data['proprietaire'];
 
-        // Appeler la méthode create_appartement du service
         $new_appartement = $this->service->create_appartement($appartement_object);
 
         // Envoyer une réponse au client
@@ -117,6 +106,8 @@ class AppartementController {
             }
 
             $this->service->delete_appartement($req->uri[3]);
+            $res->status = 200;
+            $res->content = '{"message":"Appartement Correctly deleted"}';
         }
     }
 
@@ -136,13 +127,9 @@ class AppartementController {
 
                 $json = file_get_contents('php://input');
 
-                // Décoder le JSON en un tableau associatif
                 $data = json_decode($json, true);
 
-                // Vérifier si les données JSON sont valides
                 if (!$data) {
-                    // Gérer l'erreur de données JSON malformées
-                    // Par exemple, renvoyer une réponse d'erreur JSON au client
                     $res->content = json_encode(array('error' => 'Invalid JSON data'));
                     return;
                 }
@@ -159,6 +146,8 @@ class AppartementController {
 
                 $new_appartement = $this->service->update_appartement($req->uri[3], $appartement_object);
             }
+        $res->status = 200;
+        $res->content = $new_appartement;
         }
 
     function get_right($token)
