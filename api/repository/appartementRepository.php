@@ -40,7 +40,7 @@ class AppartementRepository {
         $appartement = pg_fetch_assoc($result); 
 
         if (!$appartement) {
-            throw new BddNotFoundException("Requested to-do does not exist");        
+            throw new BddNotFoundException("Appartement does not exist");        
         }
 
         return $appartement;
@@ -116,7 +116,7 @@ class AppartementRepository {
         $droit = pg_fetch_assoc($result);
 
         if (!$droit) {
-            throw new BddNotFoundException("Requested to-do does not exist");
+            throw new BddNotFoundException("Appartement does not exist");
         }
         return $droit['droit'];
     }

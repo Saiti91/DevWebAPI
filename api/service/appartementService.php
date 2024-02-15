@@ -12,7 +12,7 @@ class AppartementService {
     function create_appartement($appartement_object) {
         return $this->repository->create_appartement($appartement_object);
     }
-//add Reserve appartement
+
     function get_appartement($id) {
         return $this->repository->get_appartement($id);
     }

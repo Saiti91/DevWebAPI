@@ -68,7 +68,7 @@ class UserRepository {
         $droit = pg_fetch_assoc($result);
 
         if (!$droit) {
-            throw new BddNotFoundException("Requested to-do does not exist");
+            throw new BddNotFoundException("Requested right does not exist");
         }
         return $droit['droit'];
     }
